@@ -1,0 +1,123 @@
+<html>
+<head>
+    <title>Counter App - Enhanced</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .counter-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .counter {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        button {
+            margin: 0 10px;
+        }
+        .limit-msg {
+            margin-top: 20px;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-5">Counter App - Enhanced</h1>
+        <div class="counter-container">
+            <p class="counter">0</p>
+            <div>
+                <button class="btn btn-primary" onclick="incrementCounter()">Increment</button>
+                <button class="btn btn-danger" onclick="decrementCounter()">Decrement</button>
+                <button class="btn btn-warning" onclick="resetCounter()">Reset</button>
+                <button class="btn btn-info" onclick="startAutoIncrement()">Start Auto Increment</button>
+                <button class="btn btn-secondary" onclick="stopAutoIncrement()">Stop Auto Increment</button>
+            </div>
+            <div class="mt-3">
+                <input type="number" id="customValue" placeholder="Set custom value" class="form-control d-inline-block w-auto">
+                <button class="btn btn-success" onclick="setCustomValue()">Set Value</button>
+            </div>
+            <p class="limit-msg" id="limitMsg"></p>
+        </div>
+    </div>
+    <footer>
+        <div class="copyright">
+            <center>
+                <p>&copy; 2024 Made by Basem Halaika. All rights reserved.</p>
+                <a href="https://dukingdraon.com/4/7251046" style="width: 50px; color: #FFCC00;">click here</a>
+            </center>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+    <script>
+        let count = 0;
+        const counterElement = document.querySelector('.counter');
+        const limitMsgElement = document.getElementById('limitMsg');
+        let autoIncrementInterval = null;
+
+        const minCount = -10; // الحد الأدنى
+        const maxCount = 10;  // الحد الأقصى
+
+        function incrementCounter() {
+            if (count < maxCount) {
+                count++;
+                updateCounter();
+            } else {
+                showLimitMessage('Maximum limit reached!');
+            }
+        }
+
+        function decrementCounter() {
+            if (count > minCount) {
+                count--;
+                updateCounter();
+            } else {
+                showLimitMessage('Minimum limit reached!');
+            }
+        }
+
+        function resetCounter() {
+            count = 0;
+            updateCounter();
+            clearLimitMessage();
+        }
+
+        function setCustomValue() {
+            const customValue = parseInt(document.getElementById('customValue').value);
+            if (!isNaN(customValue) && customValue >= minCount && customValue <= maxCount) {
+                count = customValue;
+                updateCounter();
+                clearLimitMessage();
+            } else {
+                showLimitMessage(`Value must be between ${minCount} and ${maxCount}.`);
+            }
+        }
+
+        function updateCounter() {
+            counterElement.innerText = count;
+        }
+
+        function showLimitMessage(message) {
+            limitMsgElement.innerText = message;
+        }
+
+        function clearLimitMessage() {
+            limitMsgElement.innerText = '';
+        }
+
+        function startAutoIncrement() {
+            if (!autoIncrementInterval) {
+                autoIncrementInterval = setInterval(() => {
+                    incrementCounter();
+                }, 1000); // زيادة العدد كل ثانية
+            }
+        }
+
+        function stopAutoIncrement() {
+            clearInterval(autoIncrementInterval);
+            autoIncrementInterval = null;
+        }
+    </script>
+</body>
+</html>
